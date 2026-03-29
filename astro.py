@@ -1,48 +1,40 @@
-import swisseph as swe
+# astro.py
 
-# Zodiac list
-SIGNS = [
-    "Aries", "Taurus", "Gemini", "Cancer",
-    "Leo", "Virgo", "Libra", "Scorpio",
-    "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-]
+def get_chart(year, month, day, hour=0, minute=0, timezone_offset=0):
+    # Basit hesap (demo)
+    seed = (year + month + day + hour + minute) % 360
 
-# --- DEGREE → SIGN ---
-def get_sign(degree):
-    index = int(degree / 30)
-    return SIGNS[index % 12]
+    return {
+        "sun": seed % 360,
+        "moon": (seed + 120) % 360,
+        "venus": (seed + 240) % 360
+    }
 
-
-# --- CHART CALCULATION ---
-def get_chart(*args, **kwargs):
-    return {"sun": 0, "moon": 0, "venus": 0}
-
-def synastry_score(c1, c2):
-    return 50
 
 def get_sign(degree):
-    return "Aries"
+    SIGNS = [
+        "Aries", "Taurus", "Gemini", "Cancer",
+        "Leo", "Virgo", "Libra", "Scorpio",
+        "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
+
+    return SIGNS[int(degree / 30) % 12]
 
 
-# --- ANGLE DIFFERENCE ---
 def angle_diff(a, b):
     return min(abs(a - b), 360 - abs(a - b))
 
 
-# --- SYNASTRY SCORE ---
 def synastry_score(c1, c2):
     score = 0
 
-    # Sun compatibility
-    if angle_diff(c1["sun"], c2["sun"]) < 15:
+    if angle_diff(c1["sun"], c2["sun"]) < 30:
         score += 30
 
-    # Moon compatibility
-    if angle_diff(c1["moon"], c2["moon"]) < 15:
+    if angle_diff(c1["moon"], c2["moon"]) < 30:
         score += 30
 
-    # Venus compatibility
-    if angle_diff(c1["venus"], c2["venus"]) < 15:
+    if angle_diff(c1["venus"], c2["venus"]) < 30:
         score += 40
 
     return score
