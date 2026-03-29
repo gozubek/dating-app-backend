@@ -14,27 +14,14 @@ def get_sign(degree):
 
 
 # --- CHART CALCULATION ---
-def get_chart(year, month, day, hour=0, minute=0, timezone_offset=0):
+def get_chart(*args, **kwargs):
+    return {"sun": 0, "moon": 0, "venus": 0}
 
-    # Convert local time → UTC
-    utc_hour = hour - timezone_offset
+def synastry_score(c1, c2):
+    return 50
 
-    # Add minute
-    time_decimal = utc_hour + (minute / 60)
-
-    # Julian day
-    jd = swe.julday(year, month, day, time_decimal)
-
-    # Planet positions
-    sun = swe.calc_ut(jd, swe.SUN)[0][0]
-    moon = swe.calc_ut(jd, swe.MOON)[0][0]
-    venus = swe.calc_ut(jd, swe.VENUS)[0][0]
-
-    return {
-        "sun": sun,
-        "moon": moon,
-        "venus": venus
-    }
+def get_sign(degree):
+    return "Aries"
 
 
 # --- ANGLE DIFFERENCE ---
